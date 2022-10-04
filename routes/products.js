@@ -2,19 +2,24 @@ const { Router } = require('express')
 
 const router = Router()
 
-const { } = require('../controllers/products')
+const { getProducts,
+    getProduct,
+    putProduct,
+    editProduct,
+    deleteProduct,
+    home } = require('../controllers/products')
 
 /* CRUD PRODUCTS */ 
 
-router.get('/products', )
+router.post('/products', putProduct)
 
-router.get('/products', )
+router.get('/products', home)
 
-router.get('/products/:productId', )
+router.get('/products/:productId', getProduct)
 
-router.put('/products/:productId', )
+router.put('/products/:productId', editProduct)
 
-router.delete('/products/:productId', )
+router.delete('/products/:productId', deleteProduct)
 
 
 module.exports = router

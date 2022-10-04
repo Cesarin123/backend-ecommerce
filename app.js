@@ -7,6 +7,7 @@ to the function */
 app.use(express.json()) /* Allow communication thru JSON format */
 app.use(express.urlencoded({extended: false}))
 
+app.use(router)
 
 /* Server startup on port 3000*/
 app.listen(3000, (error) => {
