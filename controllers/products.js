@@ -1,40 +1,6 @@
 const connection = require('../db_connect/connection')
 
-const getProducts = async (req, res) => {
-
-    console.log("Getting products...");
-
-    try {
-
-        const response = await connection.query('SELECT * FROM products')
-
-        res.status(200).send({
-            data: response.rows
-        })
-
-        console.log("Mostando productos")
-    
-    } catch (error) {
-
-        console.log("Server error")
-        res.status(400).send({
-            error
-        })
-    }
-
-}
-
-const getProduct = (req, res) => {
-
-    console.log("Obteniendo producto...")
-
-    res.status(200).send({
-
-        mensaje: "Producto"
-
-    })
-
-}
+/*Crear producto controlador*/
 
 const createProduct = async (req, res) => {
 
@@ -50,8 +16,6 @@ const createProduct = async (req, res) => {
                 )
         
         if (response.rowCount > 0) {
-
-            console.log("Product created")
         
             res.status(200).send({
 
@@ -81,41 +45,158 @@ const createProduct = async (req, res) => {
     }
 }
 
+/*Obtener productos controlador*/
 
-const editProduct = (req, res) => {
+const getProducts = async (req, res) => {
 
-    console.log("Editando producto...")
+    console.log("Todos los productos");
 
-    res.status(200).send({
+    try {
 
-        mensaje: "Editar producto"
+        const response = await connection.query('SELECT * FROM products')
 
-    })
+        res.status(200).send({
 
-}
+            data: response.rows
 
-
-const deleteProduct = (req, res) => {
-
-    console.log("Borrando producto")
-
-    res.status(200).send({
-
-        mensaje: "Eliminar producto"
-
-    })
-
-}
-
-const home = (req, res) => {
+        })
     
-    console.log("/products/ route")
+    } catch (error) {
 
-    res.status(200).send({
+        res.status(400).send({
+
+            error
+
+        })
+    }
+}
+
+/*Obtener producto controlador*/
+
+const getProduct = async (req, res) => {
+
+    console.log("Un producto")
+
+    const id = parseInt(req.params.prodId)
+
+    try {
+
+        const response = await connection.query(
+            `SELECT * FROM products WHERE id = $1`, [id]
+        )
+
+        if(response.rowCount > 0) {
+
+            console.log("Product id: ", id)
+            
+            res.status(200).send({
+
+                data: response.rows
+
+            })
+        } else{
+
+            res.status(404).send({
+
+                message: "Producto no encontrado"
+
+            })
+
+        }
+
+    } catch (error) {
+
+        res.status(404).send({
+
+            error
+
+        })
+    }
+}
+
+/*Eliminar producto controlador*/
+
+const deleteProduct = async (req, res) => {
+
+    console.log("Eliminando un producto")
+
+    const id = req.params.prodId
+
+    try {
+
+        const response = await connection.query(
+            `DELETE FROM products WHERE id = $1`, [id]
+        )
+
+        if(response.rowCount > 0) {
+
+            res.status(200).send({
+
+                mensaje: "Eliminar producto"
         
-        mensaje: "Hola mundo"
+            })
+            
+        }else{
+
+            res.status(409).send({
+
+                message: "No se pudo eliminar el producto en este momento"
+
+            })
+
+        }
+
+    } catch (error) {
+
+        res.status(404).send({
+
+            error
+
+        })
+    }
+}
+
+/*Modificar producto controlador*/
+
+const modifyProduct = async (req, res) => {
+
+    console.log("Modificando producto...")
+
+    const id = req.params.prodId
+
+    const { name, price, stock } = req.body
+
+    try { 
+
+        const response =  await connection.query(
+            `UPDATE producsts SET name = $1, price = $2, stock = $3
+            WHERE id = $3`, [name, price, stock, id]
+        )
+
+        if(response.rowCount > 0){
+
+            res.status(200).send({
+
+                mensaje: "Editar producto"
+        
+            })
+            
+        }else{
+
+            res.status(409).send({
+
+                message: "No se pudo modificar el producto en este momento"
+            })
+        }
     
-    });
+    } catch (error) {
+
+        res.status(400).send({
+
+            error
+
+        })
+    }
 }
 
 
@@ -124,7 +205,6 @@ module.exports = {
     getProducts,
     getProduct,
     createProduct,
-    editProduct,
-    deleteProduct,
-    home
+    modifyProduct,
+    deleteProduct
 }
