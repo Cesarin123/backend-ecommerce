@@ -4,16 +4,16 @@ const router = Router()
 
 const { getProducts,
     getProduct,
-    putProduct,
+    createProduct,
     editProduct,
     deleteProduct,
     home } = require('../controllers/products')
 
 /* CRUD PRODUCTS */ 
 
-router.post('/products', putProduct)
+router.post('/products', createProduct)
 
-router.get('/products', home)
+router.get('/products', getProducts)
 
 router.get('/products/:productId', getProduct)
 

@@ -1,12 +1,26 @@
-const getProducts= (req, res) => {
+const connection = require('../db_connect/connection')
 
-    console.log("Obteniendo productos");
+const getProducts = async (req, res) => {
 
-    res.status(200).send({
-        
-        mensaje: "Productos"
+    console.log("Getting products...");
 
-    })
+    try {
+
+        const response = await connection.query('SELECT * FROM products')
+
+        res.status(200).send({
+            data: response.rows
+        })
+
+        console.log("Mostando productos")
+    
+    } catch (error) {
+
+        console.log("Server error")
+        res.status(400).send({
+            error
+        })
+    }
 
 }
 
@@ -22,17 +36,51 @@ const getProduct = (req, res) => {
 
 }
 
-const putProduct = (req, res) => {
+const createProduct = async (req, res) => {
 
-    console.log("Creando producto...")
+    console.log("Creating product...")
 
-    res.status(200).send({
+    const { name, price, stock } = req.body
 
-        mensaje: "Crear producto"
+    try {
+        
+        const response =  await connection.query(
+            `INSERT INTO products (name, price, stock)
+                VALUES ($1, $2, $3)`, [name, price, stock]
+                )
+        
+        if (response.rowCount > 0) {
 
-    })
+            console.log("Product created")
+        
+            res.status(200).send({
 
+                mensaje: "Producto creado"
+    
+            })
+
+        }else{
+
+            res.status(409).send({
+
+                message: "No se pudo crear el producto en este momento."
+            
+            })
+
+        }
+
+    } catch (error) {
+
+        console.log("Server error")
+
+        res.status(409).send({
+
+            error
+
+        })
+    }
 }
+
 
 const editProduct = (req, res) => {
 
@@ -61,7 +109,7 @@ const deleteProduct = (req, res) => {
 
 const home = (req, res) => {
     
-    console.log("/api/ route")
+    console.log("/products/ route")
 
     res.status(200).send({
         
@@ -70,10 +118,12 @@ const home = (req, res) => {
     });
 }
 
+
+
 module.exports = {
     getProducts,
     getProduct,
-    putProduct,
+    createProduct,
     editProduct,
     deleteProduct,
     home
