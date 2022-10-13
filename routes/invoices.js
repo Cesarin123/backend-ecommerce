@@ -6,15 +6,15 @@ const { } = require('../controllers/invoices')
 
 /* CRUD INVOICES */ 
 
-router.get('/invoices', )
+router.get('/api/v1/invoices', )
 
-router.get('/invoices', )
+router.get('/api/v1/invoices', )
 
-router.get('/invoices/:invoiceId', )
+router.get('/api/v1/invoices/:invoiceId', )
 
-router.put('/invoices/:invoiceId', )
+router.put('/api/v1/invoices/:invoiceId', )
 
-router.delete('/invoices/:invoiceId', )
+router.delete('/api/v1/invoices/:invoiceId', )
 
 
 module.exports = router

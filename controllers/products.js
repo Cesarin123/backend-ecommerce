@@ -120,7 +120,7 @@ const deleteProduct = async (req, res) => {
 
     console.log("Eliminando un producto")
 
-    const id = req.params.prodId
+    const id = parseInt(req.params.prodId)
 
     try {
 
@@ -162,15 +162,15 @@ const modifyProduct = async (req, res) => {
 
     console.log("Modificando producto...")
 
-    const id = req.params.prodId
+    const id = parseInt(req.params.prodId)
 
     const { name, price, stock } = req.body
 
     try { 
 
         const response =  await connection.query(
-            `UPDATE producsts SET name = $1, price = $2, stock = $3
-            WHERE id = $3`, [name, price, stock, id]
+            `UPDATE products SET name = $1, price = $2, stock = $3
+            WHERE id = $4`, [name, price, stock, id]
         )
 
         if(response.rowCount > 0){

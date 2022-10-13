@@ -10,15 +10,15 @@ const { createUser,
 
 /* CRUD USERS */ 
 
-router.post('/users', createUser)
+router.post('/api/v1/users', createUser)
 
-router.get('/users', getUsers)
+router.get('/api/v1/users', getUsers)
 
-router.get('/users/:userId', getUser)
+router.get('/api/v1/users/:userId', getUser)
 
-router.put('/users/:userId', modifyUser)
+router.put('/api/v1/users/:userId', modifyUser)
 
-router.delete('/users/:userId', deleteUser )
+router.delete('/api/v1/users/:userId', deleteUser )
 
 
 module.exports = router

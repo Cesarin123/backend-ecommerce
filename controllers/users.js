@@ -120,7 +120,7 @@ const deleteUser = async (req, res) => {
 
     console.log("Eliminando un usuario...")
 
-    const id = req.params.idUser
+    const id = req.params.userId
 
     try {
 
@@ -162,7 +162,7 @@ const modifyUser = async (req, res) => {
 
     console.log("Moficando un usuario...")
 
-    const id = req.params.idUser
+    const id = req.params.userId
 
     const { name, email } = req.body
 
