@@ -2,11 +2,12 @@ const { Router } = require('express')
 
 const router = Router()
 
-const { } = require('../controllers/invoices')
+const { getOrders,
+        createOrder } = require('../controllers/invoices')
 
 /* CRUD INVOICES */ 
 
-router.get('/api/v1/invoices', )
+router.get('/api/v1/invoices', getOrders)
 
 router.get('/api/v1/invoices', )
 
